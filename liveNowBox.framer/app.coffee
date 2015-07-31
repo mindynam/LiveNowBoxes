@@ -74,6 +74,8 @@ tnt3 = new Layer
 	x:539, y:165, width:202, height:203, image:"images/TNT3@2x.png"
 recordpop = new Layer
 	x:0, y:163, width:178, height:48, image:"images/recordpop@2x.png"
+stopRec = new Layer
+	x:0, y:163, width:178, height:48, image:"images/stopRec@2x.png"
 
 hbo = [hbo1,hbo2,hbo3]
 tnt = [tnt1,tnt2,tnt3]
@@ -166,8 +168,12 @@ cursorChange(nine)
 #record popup------- 
 recordpop.states.add
 	hide: opacity:0 
+stopRec.states.add
+	hide: opacity:0
 recordpop.states.switch("hide")
+stopRec.states.switch("hide")
 cursorChange(recordpop)
+cursorChange(stopRec)
 
 #--- make record popup show up at the right places
 recTouch1 = new Layer
@@ -181,21 +187,32 @@ recTouch = [recTouch1,recTouch2,recTouch3]
 for r in recTouch
 	r.bringToFront()
 	cursorChange(r)
-recTouch1.on Events.Click, (event) ->
-	recordpop.x = recTouch1.x-18
-	recordpop.states.next()
+recTouch1.on Events.Click, ->
+	if isHBOrec == false
+		recordpop.x = recTouch1.x-18
+		recordpop.states.switch("default")
+	else
+		stopRec.x = recTouch1.x-18
+		stopRec.states.switch("default")
 
 recTouch2.on Events.Click, (event) ->
-	recordpop.x = recTouch2.x-18
-	recordpop.states.next()
-
+	if isAMCrec == false
+		recordpop.x = recTouch2.x-18
+		recordpop.states.switch("default")
+	else
+		stopRec.x = recTouch2.x-18
+		stopRec.states.switch("default")
+		
 recTouch3.on Events.Click, (event) ->
-	recordpop.x = recTouch3.x-18
-	recordpop.states.next()
-	
+	if isABCrec == false
+		recordpop.x = recTouch3.x-18
+		recordpop.states.switch("default")
+	else
+		stopRec.x = recTouch3.x-18
+		stopRec.states.switch("default")
+
 
 recordpop.on Events.Click, (event) ->
-	print recordpop.x
 	for t in touchPoints
 		t.ignoreEvents
 	recordpop.bringToFront()
@@ -206,7 +223,20 @@ recordpop.on Events.Click, (event) ->
 		when 906 then isAMCrec = true
 		when 1118 then isABCrec = true
 	updateRec()	
-	print isHBOrec
+
+stopRec.on Events.Click, (event) ->
+	for t in touchPoints
+		t.ignoreEvents
+	stopRec.bringToFront()
+	event.stopPropagation()
+	stopRec.states.switch("hide")
+	switch stopRec.x
+		when 482 then isHBOrec = false
+		when 906 then isAMCrec = false
+		when 1118 then isABCrec = false
+	updateRec()	
+
+
 
 # enable hover effect complete with cursor change (how do I make this DRY?)-------
 hboTouch.on Events.MouseOver, ->
@@ -260,3 +290,4 @@ abcTouch.on Events.MouseOut, ->
 	for h in abc
 		h.states.switch("hide")	
 	document.body.style.cursor = "auto"
+
