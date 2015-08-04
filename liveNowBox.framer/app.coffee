@@ -47,6 +47,34 @@ for r in recButtons
 		hide:opacity:0
 	r.states.switch("hide")
 
+#---info scrolling
+
+hboContainer = new Layer
+	x:328, y: 165, width:200, height: 203, backgroundColor:"transparent"
+tntContainer = new Layer
+	x:540, y: 165, width:200, height: 203, backgroundColor:"transparent"
+amcContainer = new Layer
+	x:752, y: 165, width:200, height: 203, backgroundColor:"transparent"
+abcContainer = new Layer
+	x:964, y: 165, width:200, height: 203, backgroundColor:"transparent"
+	
+bachelor = new Layer
+	x:-3, y: 106, width: 409, height: 83
+	image: "images/bachelor@2x.png", superLayer:abcContainer
+# captain = new Layer
+# 	x:-1, y: 106, width: 409, height: 83
+# 	image: "images/captain@2x.png", superLayer:tntContainer, opacity: .5
+got = new Layer
+	x:-1, y: 106, width: 409, height: 83
+	image: "images/got@2x.png", superLayer:hboContainer
+madmen = new Layer
+	x:-3, y: 105, width: 409, height: 83
+	image: "images/madmen@2x.png", superLayer:amcContainer	
+info = [got,madmen,bachelor]
+for i in info
+	i.states.add
+		second:{x:i.x-211}
+		
 #initializing channel hovers-------
 abc1 = new Layer
 	x:963, y:165, width:202, height:203, image:"images/ABC1@2x.png"
@@ -134,9 +162,13 @@ updatePage = (pg) ->
 			page1.states.switch("default")
 			for r in recButtons
 				r.states.switch("hide")
+			for i in info
+				i.states.switch("default")
 		when 2
 			page2.states.switch("default")
 			updateRec()
+			for i in info
+				i.states.switch("second")
 		when 3
 			page3.states.switch("default") 
 
