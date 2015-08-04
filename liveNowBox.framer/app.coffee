@@ -36,11 +36,11 @@ for p in pages
 #Changing recording button color-------
 
 recButton1= new Layer
-	x:502, y:178, width:14, height:15, image:"images/recButton@2x.png"
+	x:502, y:178, width:14, height:15, image:"images/recButton@2x.png", superLayer:hboTouch
 recButton2=new Layer
-	x:926, y:178, width:14, height:15, image:"images/recButton@2x.png"
+	x:926, y:178, width:14, height:15, image:"images/recButton@2x.png", superLayer:amcTouch
 recButton3=new Layer
-	x:1138, y:178, width:14, height:15, image:"images/recButton@2x.png"
+	x:1138, y:178, width:14, height:15, image:"images/recButton@2x.png", superLayer:abcTouch
 recButtons = [recButton1, recButton2, recButton3]
 for r in recButtons
 	r.states.add
@@ -73,9 +73,9 @@ tnt2 = new Layer
 tnt3 = new Layer
 	x:539, y:165, width:202, height:203, image:"images/TNT3@2x.png"
 recordpop = new Layer
-	x:0, y:163, width:178, height:48, image:"images/recordpop@2x.png"
+	x:0, y:163, width:178, height:48, image:"images/recordpop2@2x.png"
 stopRec = new Layer
-	x:0, y:163, width:178, height:48, image:"images/stopRec@2x.png"
+	x:0, y:163, width:178, height:48, image:"images/stopRec2@2x.png"
 
 hbo = [hbo1,hbo2,hbo3]
 tnt = [tnt1,tnt2,tnt3]
@@ -188,52 +188,62 @@ for r in recTouch
 	r.bringToFront()
 	cursorChange(r)
 recTouch1.on Events.Click, ->
+	recordpop.bringToFront()
+	stopRec.bringToFront()
+	event.stopPropagation()
 	if isHBOrec == false
-		recordpop.x = recTouch1.x-18
+		recordpop.x = recTouch1.x-138
 		recordpop.states.switch("default")
+		print recordpop.x
 	else
-		stopRec.x = recTouch1.x-18
+		stopRec.x = recTouch1.x-138
 		stopRec.states.switch("default")
 
 recTouch2.on Events.Click, (event) ->
+	recordpop.bringToFront()
+	stopRec.bringToFront()
+	event.stopPropagation()
 	if isAMCrec == false
-		recordpop.x = recTouch2.x-18
+		recordpop.x = recTouch2.x-138
 		recordpop.states.switch("default")
 	else
-		stopRec.x = recTouch2.x-18
+		stopRec.x = recTouch2.x-138
 		stopRec.states.switch("default")
 		
 recTouch3.on Events.Click, (event) ->
+	recordpop.bringToFront()
+	stopRec.bringToFront()
+	event.stopPropagation()
 	if isABCrec == false
-		recordpop.x = recTouch3.x-18
+		recordpop.x = recTouch3.x-138
 		recordpop.states.switch("default")
 	else
-		stopRec.x = recTouch3.x-18
+		stopRec.x = recTouch3.x-138
 		stopRec.states.switch("default")
 
 
 recordpop.on Events.Click, (event) ->
-	for t in touchPoints
-		t.ignoreEvents
+# 	for t in touchPoints
+# 		t.ignoreEvents
 	recordpop.bringToFront()
 	event.stopPropagation()
 	recordpop.states.switch("hide")
 	switch recordpop.x
-		when 482 then isHBOrec = true
-		when 906 then isAMCrec = true
-		when 1118 then isABCrec = true
+		when (482-120) then isHBOrec = true
+		when (906-120) then isAMCrec = true
+		when (1118-120) then isABCrec = true
 	updateRec()	
 
 stopRec.on Events.Click, (event) ->
-	for t in touchPoints
-		t.ignoreEvents
+# 	for t in touchPoints
+# 		t.ignoreEvents
 	stopRec.bringToFront()
 	event.stopPropagation()
 	stopRec.states.switch("hide")
 	switch stopRec.x
-		when 482 then isHBOrec = false
-		when 906 then isAMCrec = false
-		when 1118 then isABCrec = false
+		when (482-120) then isHBOrec = false
+		when (906-120) then isAMCrec = false
+		when (1118-120) then isABCrec = false
 	updateRec()	
 
 
@@ -290,4 +300,5 @@ abcTouch.on Events.MouseOut, ->
 	for h in abc
 		h.states.switch("hide")	
 	document.body.style.cursor = "auto"
+
 
