@@ -194,7 +194,6 @@ recTouch1.on Events.Click, ->
 	if isHBOrec == false
 		recordpop.x = recTouch1.x-138
 		recordpop.states.switch("default")
-		print recordpop.x
 	else
 		stopRec.x = recTouch1.x-138
 		stopRec.states.switch("default")
@@ -223,8 +222,6 @@ recTouch3.on Events.Click, (event) ->
 
 
 recordpop.on Events.Click, (event) ->
-# 	for t in touchPoints
-# 		t.ignoreEvents
 	recordpop.bringToFront()
 	event.stopPropagation()
 	recordpop.states.switch("hide")
@@ -235,8 +232,6 @@ recordpop.on Events.Click, (event) ->
 	updateRec()	
 
 stopRec.on Events.Click, (event) ->
-# 	for t in touchPoints
-# 		t.ignoreEvents
 	stopRec.bringToFront()
 	event.stopPropagation()
 	stopRec.states.switch("hide")
