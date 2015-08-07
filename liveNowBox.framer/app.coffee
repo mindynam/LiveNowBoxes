@@ -155,7 +155,22 @@ updateRec = () ->
 	if isABCrec
 		recButton3.states.switch("default") 
 
+#---function that changes cursor to pointers
+cursorChange = (x) ->
+	x.on Events.MouseOver, ->
+		document.body.style.cursor = "pointer"
+	x.on Events.MouseOut, ->
+		document.body.style.cursor = "auto"
 
+#record popup------- 
+recordpop.states.add
+	hide: opacity:0 
+stopRec.states.add
+	hide: opacity:0
+recordpop.states.switch("hide")
+stopRec.states.switch("hide")
+cursorChange(recordpop)
+cursorChange(stopRec)
 
 #page changing-------
 
@@ -169,6 +184,11 @@ updatePage = (pg) ->
 				r.states.switch("hide")
 			for i in info
 				i.states.switch("default")
+			#hides popups	
+			recordpop.states.switchInstant("hide")
+			stopRec.states.switchInstant("hide")
+			recordpop.sendToBack()
+			stopRec.sendToBack()
 		when 2
 			page1.states.switch("hide")
 			page2.states.switch("default")
@@ -180,12 +200,7 @@ updatePage = (pg) ->
 
 
 updatePage (pageNo)
-#---function that changes cursor to pointers
-cursorChange = (x) ->
-	x.on Events.MouseOver, ->
-		document.body.style.cursor = "pointer"
-	x.on Events.MouseOut, ->
-		document.body.style.cursor = "auto"
+
 
 
 now = new Layer
@@ -203,15 +218,7 @@ nine.on Events.Click, ->
 cursorChange(now)
 cursorChange(nine)
 
-#record popup------- 
-recordpop.states.add
-	hide: opacity:0 
-stopRec.states.add
-	hide: opacity:0
-recordpop.states.switch("hide")
-stopRec.states.switch("hide")
-cursorChange(recordpop)
-cursorChange(stopRec)
+
 
 #--- make record popup show up at the right places
 recTouch1 = new Layer
@@ -340,4 +347,11 @@ abcTouch.on Events.MouseOut, ->
 		h.states.switch("hide")	
 	document.body.style.cursor = "auto"
 
+for t in touchPoints
+	t.on Events.Click, ->
+		#hides popups	
+		recordpop.states.switchInstant("hide")
+		stopRec.states.switchInstant("hide")
+		recordpop.sendToBack()
+		stopRec.sendToBack()
 
