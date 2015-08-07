@@ -32,6 +32,10 @@ pages = [page3, page2, page1]
 for p in pages
 	p.states.add
 		hide: opacity:0
+# 	p.states.animationOptions ={
+# 		curve: "linear"
+# 	}
+
 
 #Changing recording button color-------
 
@@ -46,6 +50,7 @@ for r in recButtons
 	r.states.add
 		hide:opacity:0
 	r.states.switch("hide")
+	r.off
 
 #---info scrolling
 
@@ -155,8 +160,8 @@ updateRec = () ->
 #page changing-------
 
 updatePage = (pg) ->
-	for p in pages
-		p.states.switch("hide")
+# 	for p in pages
+# 		p.states.switch("hide")
 	switch pg
 		when 1 
 			page1.states.switch("default")
@@ -165,6 +170,7 @@ updatePage = (pg) ->
 			for i in info
 				i.states.switch("default")
 		when 2
+			page1.states.switch("hide")
 			page2.states.switch("default")
 			updateRec()
 			for i in info
@@ -219,41 +225,44 @@ recTouch = [recTouch1,recTouch2,recTouch3]
 for r in recTouch
 	r.bringToFront()
 	cursorChange(r)
-recTouch1.on Events.Click, ->
-	recordpop.bringToFront()
-	stopRec.bringToFront()
+	
+recTouch1.on Events.Click, (event) ->
 	event.stopPropagation()
 	if isHBOrec == false
+		recordpop.bringToFront()
 		recordpop.x = recTouch1.x-138
 		recordpop.states.switch("default")
+		
 	else
+		stopRec.bringToFront()
 		stopRec.x = recTouch1.x-138
 		stopRec.states.switch("default")
 
 recTouch2.on Events.Click, (event) ->
-	recordpop.bringToFront()
-	stopRec.bringToFront()
 	event.stopPropagation()
 	if isAMCrec == false
+		recordpop.bringToFront()
 		recordpop.x = recTouch2.x-138
 		recordpop.states.switch("default")
 	else
+		stopRec.bringToFront()
 		stopRec.x = recTouch2.x-138
 		stopRec.states.switch("default")
 		
 recTouch3.on Events.Click, (event) ->
-	recordpop.bringToFront()
-	stopRec.bringToFront()
 	event.stopPropagation()
 	if isABCrec == false
+		recordpop.bringToFront()
 		recordpop.x = recTouch3.x-138
 		recordpop.states.switch("default")
 	else
+		stopRec.bringToFront()
 		stopRec.x = recTouch3.x-138
 		stopRec.states.switch("default")
 
 
 recordpop.on Events.Click, (event) ->
+# 	print "recordpop was clicked"
 	recordpop.bringToFront()
 	event.stopPropagation()
 	recordpop.states.switch("hide")
@@ -262,8 +271,10 @@ recordpop.on Events.Click, (event) ->
 		when (906-120) then isAMCrec = true
 		when (1118-120) then isABCrec = true
 	updateRec()	
+	recordpop.sendToBack()
 
 stopRec.on Events.Click, (event) ->
+# 	print "stopRec was clicked"
 	stopRec.bringToFront()
 	event.stopPropagation()
 	stopRec.states.switch("hide")
@@ -272,6 +283,7 @@ stopRec.on Events.Click, (event) ->
 		when (906-120) then isAMCrec = false
 		when (1118-120) then isABCrec = false
 	updateRec()	
+	stopRec.sendToBack()
 
 
 
